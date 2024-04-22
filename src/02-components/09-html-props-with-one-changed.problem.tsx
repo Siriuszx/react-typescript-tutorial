@@ -1,8 +1,14 @@
 import { ComponentProps } from "react";
 import { Equal, Expect } from "../helpers/type-utils";
 
+type OverrideProps<T, U> = Omit<T, keyof U> & U;
+
+// type InputProps = Omit<ComponentProps<"input">, 'onChange'> & { onChange: (value: string) => void };
+
+type InputProps = OverrideProps<ComponentProps<'input'>, { onChange: (value: string) => void, name: string}>;
+
 export const Input = (
-  props: ComponentProps<"input"> & { onChange: (value: string) => void }
+  props: InputProps 
 ) => {
   return (
     <input
@@ -17,6 +23,7 @@ export const Input = (
 const Parent = () => {
   return (
     <Input
+      name="parent"
       onChange={(e) => {
         console.log(e);
 
